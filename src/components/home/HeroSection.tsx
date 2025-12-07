@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
-import heroDam from "@/assets/hero-dam.jpg";
+import heroDam from "@/assets/istockphoto-1748155170-640_adpp_is.mp4";
 
 export function HeroSection() {
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <img
+        <video
           src={heroDam}
-          alt="Hydropower dam in the Himalayas"
+          muted
+          loop
+          autoPlay
           className="w-full h-full object-cover"
         />
         {/* Overlay */}
