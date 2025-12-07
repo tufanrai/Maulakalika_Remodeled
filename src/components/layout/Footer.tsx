@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Zap, Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/Logo.png";
 
 const footerLinks = {
   company: [
@@ -32,8 +33,15 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center">
-                <Zap className="w-7 h-7 text-accent-foreground" />
+              <div
+                style={{
+                  backgroundImage: `url("${logo}")`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+                className="w-12 h-12 rounded-full bg-accent flex items-center justify-center"
+              >
+                {/* <Zap className="w-7 h-7 text-accent-foreground" /> */}
               </div>
               <div>
                 <p className="font-bold text-lg leading-tight">Maulakalika</p>

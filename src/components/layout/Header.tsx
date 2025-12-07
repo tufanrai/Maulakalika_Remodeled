@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import logo from "@/assets/Logo.png";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -24,8 +25,15 @@ export function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-lg bg-primary flex items-center justify-center group-hover:shadow-accent transition-shadow">
-              <Zap className="w-7 h-7 text-primary-foreground" />
+            <div
+              style={{
+                backgroundImage: `url("${logo}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+              className="w-12 h-12 rounded-full bg-primary flex items-center justify-center group-hover:shadow-accent transition-shadow"
+            >
+              {/* <img src={logo} className="w-7 h-7 text-primary-foreground" /> */}
             </div>
             <div className="hidden sm:block">
               <p className="font-bold text-lg text-foreground leading-tight">

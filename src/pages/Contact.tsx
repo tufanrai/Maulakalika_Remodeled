@@ -1,27 +1,41 @@
-import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, Send, Clock } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import mailSchema from "@/components/schema/Mail.schema";
+import { useMutation } from "@tanstack/react-query";
+import mailAdmin from "@/api/mail.api";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
+  const { mutate, isPending } = useMutation({
+    mutationFn: mailAdmin,
+    mutationKey: ["New mail"],
+    onSuccess(data) {
+      toast.success(data.message);
+      reset();
+    },
+    onError(e) {
+      toast.error(e.message);
+      reset();
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "Thank you for your inquiry. We'll get back to you within 2-3 business days.",
-    });
-    setFormData({ name: "", email: "", subject: "", message: "" });
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(mailSchema),
+  });
+
+  const sendMail = (data: any) => {
+    mutate(data);
   };
 
   return (
@@ -37,8 +51,8 @@ const Contact = () => {
               Get in Touch
             </h1>
             <p className="text-lg text-muted-foreground">
-              Have questions about our projects or interested in partnership opportunities? 
-              We'd love to hear from you.
+              Have questions about our projects or interested in partnership
+              opportunities? We'd love to hear from you.
             </p>
           </div>
         </div>
@@ -50,8 +64,10 @@ const Contact = () => {
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Info */}
             <div className="lg:col-span-1">
-              <h2 className="text-xl font-semibold text-foreground mb-6">Contact Information</h2>
-              
+              <h2 className="text-xl font-semibold text-foreground mb-6">
+                Contact Information
+              </h2>
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
@@ -71,7 +87,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">Email</h3>
-                    <a href="mailto:info@maulakalika.com" className="text-accent hover:underline text-sm">
+                    <a
+                      href="mailto:info@maulakalika.com"
+                      className="text-accent hover:underline text-sm"
+                    >
                       info@maulakalika.com
                     </a>
                   </div>
@@ -94,7 +113,9 @@ const Contact = () => {
                     <Clock className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-foreground">Office Hours</h3>
+                    <h3 className="font-medium text-foreground">
+                      Office Hours
+                    </h3>
                     <p className="text-muted-foreground text-sm">
                       Sun - Fri: 9:00 AM - 5:00 PM (NPT)
                     </p>
@@ -106,19 +127,26 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <div className="bg-card rounded-2xl border border-border p-8">
-                <h2 className="text-xl font-semibold text-foreground mb-6">Send us a Message</h2>
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <h2 className="text-xl font-semibold text-foreground mb-6">
+                  Send us a Message
+                </h2>
+
+                <form onSubmit={handleSubmit(sendMail)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Full Name</Label>
                       <Input
                         id="name"
                         placeholder="Your name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        required
+                        {...register("full_name")}
                       />
+                      {errors && errors.full_name ? (
+                        <p className="font-regural text-sm text-red-500 w-full text-end px-3 py-2">
+                          {errors.full_name.message}
+                        </p>
+                      ) : (
+                        ""
+                      )}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email Address</Label>
@@ -126,10 +154,15 @@ const Contact = () => {
                         id="email"
                         type="email"
                         placeholder="your@email.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required
+                        {...register("email")}
                       />
+                      {errors && errors.email ? (
+                        <p className="font-regural text-sm text-red-500 w-full text-end px-3 py-2">
+                          {errors.email.message}
+                        </p>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 
@@ -138,10 +171,15 @@ const Contact = () => {
                     <Input
                       id="subject"
                       placeholder="How can we help?"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      required
+                      {...register("subject")}
                     />
+                    {errors && errors.subject ? (
+                      <p className="font-regural text-sm text-red-500 w-full text-end px-3 py-2">
+                        {errors.subject.message}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -150,10 +188,15 @@ const Contact = () => {
                       id="message"
                       placeholder="Tell us about your inquiry..."
                       rows={6}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      required
+                      {...register("message")}
                     />
+                    {errors && errors.message ? (
+                      <p className="font-regural text-sm text-red-500 w-full text-end px-3 py-2">
+                        {errors.message.message}
+                      </p>
+                    ) : (
+                      ""
+                    )}
                   </div>
 
                   <Button type="submit" variant="accent" size="lg">
