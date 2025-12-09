@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-
+import { useQuery } from "@tanstack/react-query";
+import fetchGalleryContents from "@/api/gallery.api";
+import { useEffect, useState } from "react";
 const galleryImages = [
   {
     src: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=600&auto=format&fit=crop",
@@ -21,7 +23,22 @@ const galleryImages = [
   },
 ];
 
+interface IProps {
+  url: string;
+  alt: string;
+}
 export function GalleryPreview() {
+  // Fetch all the images
+  const { data } = useQuery({
+    queryKey: ["fetch all the images"],
+    queryFn: fetchGalleryContents,
+  });
+
+  const [Images, setImages] = useState<IProps[] | undefined>(undefined);
+
+  useEffect(() => {
+    setImages(data?.files);
+  }, [data]);
   return (
     <section className="py-24 bg-muted/50">
       <div className="container mx-auto px-4 lg:px-8">
@@ -39,23 +56,37 @@ export function GalleryPreview() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {galleryImages.map((image, idx) => (
-            <div
-              key={idx}
-              className={`relative overflow-hidden rounded-xl group cursor-pointer ${
-                idx === 0 ? "md:col-span-2 md:row-span-2" : ""
-              }`}
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
-                  idx === 0 ? "aspect-square" : "aspect-[4/3]"
-                }`}
-              />
-              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/40 transition-colors duration-300" />
-            </div>
-          ))}
+          {Images && Images != undefined ? (
+            <>
+              {Images.map((image, idx) => (
+                <div
+                  key={idx}
+                  className={`relative overflow-hidden rounded-xl group cursor-pointer ${
+                    idx === 0 ? "md:col-span-2 md:row-span-2" : ""
+                  }`}
+                >
+                  <img
+                    src={image.url}
+                    alt={image.alt}
+                    className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${
+                      idx === 0 ? "aspect-square" : "aspect-[4/3]"
+                    }`}
+                  />
+                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/40 transition-colors duration-300" />
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <section className="w-full h-1/2 flex items-center justify-center">
+                <div className="min-h-[60vh] flex flex-col items-center justify-center">
+                  <h1 className="text-2xl font-bold text-foreground mb-4">
+                    Something went wrong please refresh the page!
+                  </h1>
+                </div>
+              </section>
+            </>
+          )}
         </div>
 
         <div className="text-center">
