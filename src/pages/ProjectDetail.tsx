@@ -28,8 +28,8 @@ interface IProps {
   location: string;
   startYear: string;
   fullDescription: string;
-  features: string[];
-  timeline: ITimeline[];
+  features: string;
+  timeline: string;
   technicalSpecs: ITechSpecs[];
 }
 const ProjectDetail = () => {
@@ -148,7 +148,7 @@ const ProjectDetail = () => {
                   Key Features
                 </h3>
                 <div className="flex flex-wrap gap-3">
-                  {project.features.map((feature, idx) => (
+                  {project.features.split(",").map((feature, idx) => (
                     <span
                       key={idx}
                       className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 text-accent rounded-full"
@@ -168,7 +168,7 @@ const ProjectDetail = () => {
                 <div className="relative">
                   <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
                   <div className="space-y-6">
-                    {project.timeline.map((item, idx) => (
+                    {project.timeline.split(",").map((item, idx) => (
                       <div key={idx} className="relative pl-12">
                         <div className="absolute left-0 top-1 w-8 h-8 rounded-full bg-accent/20 border-2 border-accent flex items-center justify-center">
                           <span className="text-xs font-bold text-accent">
@@ -177,9 +177,11 @@ const ProjectDetail = () => {
                         </div>
                         <div>
                           <span className="text-sm font-semibold text-accent">
-                            {item.year}
+                            {item.split(":")[0]}
                           </span>
-                          <p className="text-foreground">{item.milestone}</p>
+                          <p className="text-foreground">
+                            {item.split(":")[1]}
+                          </p>
                         </div>
                       </div>
                     ))}

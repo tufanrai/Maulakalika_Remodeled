@@ -2,7 +2,6 @@ import { Layout } from "@/components/layout/Layout";
 import { Zap, MapPin, Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { projects } from "@/lib/data";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFiles } from "@/api/files.api";
 import { useEffect, useState } from "react";
@@ -15,7 +14,7 @@ interface IProps {
   location: string;
   startYear: string;
   description: string;
-  features: string[];
+  features: string;
   _id: string;
 }
 
@@ -114,7 +113,7 @@ const Projects = () => {
                       </p>
 
                       <div className="flex flex-wrap gap-2 mb-6">
-                        {project.features.map((feature, fidx) => (
+                        {project.features.split(",").map((feature, fidx) => (
                           <span
                             key={fidx}
                             className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full"
