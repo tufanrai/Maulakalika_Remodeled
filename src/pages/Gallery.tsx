@@ -1,61 +1,12 @@
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
-import { ArrowLeft, Cat, X } from "lucide-react";
+import { ArrowLeft, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import fetchGalleryContents from "@/api/gallery.api";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const categories = ["All", "Projects", "Meetings", "Events", "Construction"];
-
-const images = [
-  {
-    url: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&auto=format&fit=crop",
-    category: "Projects",
-    alt: "Dam construction",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800&auto=format&fit=crop",
-    category: "Projects",
-    alt: "Mountain landscape",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=800&auto=format&fit=crop",
-    category: "Projects",
-    alt: "River flow",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1560439514-e960a3ef5019?w=800&auto=format&fit=crop",
-    category: "Meetings",
-    alt: "Business meeting",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop",
-    category: "Meetings",
-    alt: "Team collaboration",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop",
-    category: "Events",
-    alt: "Event venue",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1518173946687-a4c036bc1c9a?w=800&auto=format&fit=crop",
-    category: "Construction",
-    alt: "Construction site",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop",
-    category: "Construction",
-    alt: "Infrastructure",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&auto=format&fit=crop",
-    category: "Projects",
-    alt: "Green valley",
-  },
-];
-
+// Receiving data's interface
 interface IProps {
   url: string;
   category: string;

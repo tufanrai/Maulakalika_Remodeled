@@ -4,29 +4,13 @@ import { ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import fetchGalleryContents from "@/api/gallery.api";
 import { useEffect, useState } from "react";
-const galleryImages = [
-  {
-    src: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=600&auto=format&fit=crop",
-    alt: "Mountain river landscape",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=600&auto=format&fit=crop",
-    alt: "Water flowing through mountains",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&auto=format&fit=crop",
-    alt: "Misty mountain peaks",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&auto=format&fit=crop",
-    alt: "Green mountain valley",
-  },
-];
 
+// interface of the data to be displayed
 interface IProps {
   url: string;
   alt: string;
 }
+
 export function GalleryPreview() {
   // Fetch all the images
   const { data } = useQuery({
@@ -39,6 +23,7 @@ export function GalleryPreview() {
   useEffect(() => {
     setImages(data?.files);
   }, [data]);
+
   return (
     <section className="py-24 bg-muted/50">
       <div className="container mx-auto px-4 lg:px-8">

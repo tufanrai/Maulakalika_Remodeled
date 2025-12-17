@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchFiles } from "@/api/files.api";
 import { useEffect, useState } from "react";
 
+// interface of the data receiving
 interface IProps {
   title: string;
   url: string;

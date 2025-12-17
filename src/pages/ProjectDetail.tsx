@@ -6,11 +6,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSpecificFile } from "@/api/files.api";
 
-interface ITimeline {
-  year: string;
-  milestone: string;
-}
-
+// interface for the technicla spec's data
 interface ITechSpecs {
   Type: string;
   headHeight: string;
@@ -19,6 +15,7 @@ interface ITechSpecs {
   gridConnection: string;
 }
 
+// interface of the received data
 interface IProps {
   title: string;
   url: string;
@@ -32,6 +29,7 @@ interface IProps {
   timeline: string;
   technicalSpecs: ITechSpecs[];
 }
+
 const ProjectDetail = () => {
   const [project, setProject] = useState<IProps | undefined>(undefined);
   const { id } = useParams();
@@ -41,8 +39,6 @@ const ProjectDetail = () => {
     queryKey: ["Fetch the data"],
     queryFn: () => fetchSpecificFile(id),
   });
-
-  console.log(data?.file);
 
   useEffect(() => {
     setProject(data?.file);

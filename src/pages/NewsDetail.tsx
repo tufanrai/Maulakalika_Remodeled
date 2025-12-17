@@ -1,12 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { useParams, Link } from "react-router-dom";
-import { newsItems } from "@/lib/data";
 import { Calendar, ArrowLeft, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { fetchNews, FetchSpecificNews } from "@/api/files.api";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
+// Interface of the data receiving
 interface IProps {
   title: string;
   category: string;
@@ -17,6 +18,7 @@ interface IProps {
 const NewsDetail = () => {
   const { id } = useParams();
   const [article, setArticle] = useState<IProps | undefined>(undefined);
+  const [relatedArticle, setRelatedArticle] = useState<any | null>(null);
 
   // fetch details
   const { data } = useQuery({
@@ -24,6 +26,7 @@ const NewsDetail = () => {
     queryFn: () => FetchSpecificNews(id),
   });
 
+  // fetching some more data for next news
   useEffect(() => {
     let article = data?.specific_news;
 
@@ -34,12 +37,27 @@ const NewsDetail = () => {
   const copyUrl = async () => {
     try {
       const url = window.location.href;
-
       await navigator.clipboard.writeText(url);
+      toast.success("Url copied to clipboard successfully");
     } catch (err: any) {
       console.log(err);
     }
   };
+
+  // fetch next news
+  useEffect(() => {
+    async function fetchOtherNews() {
+      try {
+        const resp = await fetchNews();
+        setRelatedArticle(
+          resp?.all_news.filter((n) => n._id !== id).slice(0, 2)
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchOtherNews();
+  }, [data]);
 
   if (!article) {
     return (
@@ -59,9 +77,6 @@ const NewsDetail = () => {
     );
   }
 
-  // Get related articles (excluding current)
-  const relatedArticles = newsItems.filter((n) => n._id !== id).slice(0, 2);
-
   return (
     <Layout>
       {/* Hero */}
@@ -80,7 +95,7 @@ const NewsDetail = () => {
               variant="ghost"
               size="sm"
               asChild
-              className="mb-4 text-white/80 hover:text-white hover:bg-white/10"
+              className="mb-4 text-neutral-400 hover:text-white hover:bg-neutral-100/20"
             >
               <Link to="/news">
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -91,12 +106,12 @@ const NewsDetail = () => {
               <span className="px-3 py-1 bg-accent text-accent-foreground text-sm font-medium rounded-full">
                 {article.category}
               </span>
-              <span className="flex items-center gap-1.5 text-white/80 text-sm">
+              <span className="flex items-center gap-1.5 text-neutral-400 text-sm">
                 <Calendar className="w-4 h-4" />
                 {article.date}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-300 leading-tight">
               {article.title}
             </h1>
           </div>
@@ -172,40 +187,46 @@ const NewsDetail = () => {
             </article>
 
             {/* Related Articles */}
-            {relatedArticles.length > 0 && (
-              <div className="mt-16 pt-12 border-t border-border">
-                <h3 className="text-xl font-bold text-foreground mb-6">
-                  Related News
-                </h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  {relatedArticles.map((item) => (
-                    <Link
-                      key={item._id}
-                      to={`/news/${item._id}`}
-                      className="group flex gap-4 p-4 rounded-xl bg-card border border-border hover:border-accent/50 transition-colors"
-                    >
-                      <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
-                        <img
-                          src={item.url}
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="text-xs text-accent font-medium">
-                          {item.category}
-                        </span>
-                        <h4 className="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2 mt-1">
-                          {item.title}
-                        </h4>
-                        <span className="text-xs text-muted-foreground mt-2 block">
-                          {item.date}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
+            {relatedArticle && relatedArticle !== null ? (
+              <>
+                {relatedArticle.length > 0 && (
+                  <div className="mt-16 pt-12 border-t border-border">
+                    <h3 className="text-xl font-bold text-foreground mb-6">
+                      Related News
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {relatedArticle.map((item) => (
+                        <Link
+                          key={item._id}
+                          to={`/news/${item._id}`}
+                          className="group flex gap-4 p-4 rounded-xl bg-card border border-border hover:border-accent/50 transition-colors"
+                        >
+                          <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                            <img
+                              src={item.url}
+                              alt={item.title}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <span className="text-xs text-accent font-medium">
+                              {item.category}
+                            </span>
+                            <h4 className="font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2 mt-1">
+                              {item.title}
+                            </h4>
+                            <span className="text-xs text-muted-foreground mt-2 block">
+                              {item.date}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              ""
             )}
           </div>
         </div>

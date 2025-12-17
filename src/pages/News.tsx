@@ -2,11 +2,11 @@ import { Layout } from "@/components/layout/Layout";
 import { Calendar, ArrowRight, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { newsItems } from "@/lib/data";
 import { useQuery } from "@tanstack/react-query";
 import { fetchNews } from "@/api/files.api";
 import { useEffect, useState } from "react";
 
+// Interface of the data receiving
 interface IProps {
   title: string;
   url: string;
@@ -18,6 +18,7 @@ interface IProps {
 
 const News = () => {
   const [news, setNews] = useState<IProps[] | undefined>(undefined);
+
   // Fetch datas
   const { data } = useQuery({
     queryKey: ["Fetch All News"],
@@ -87,7 +88,7 @@ const News = () => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="text-accent hover:text-accent p-0"
+                        className="text-accent hover:text-white p-2"
                         asChild
                       >
                         <Link to={`/news/${item._id}`}>

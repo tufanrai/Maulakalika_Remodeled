@@ -5,27 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchFiles } from "@/api/files.api";
 import { useEffect, useState } from "react";
 
-const projects = [
-  {
-    title: "Upper Maulakalika Hydro Project",
-    capacity: "42 MW",
-    status: "Ongoing",
-    description:
-      "A flagship run-of-river project harnessing the power of glacial streams.",
-    image:
-      "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&auto=format&fit=crop",
-  },
-  {
-    title: "River Basin Diversion Project",
-    capacity: "30 MW",
-    status: "Planning",
-    description:
-      "Strategic water diversion infrastructure for optimized power generation.",
-    image:
-      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&auto=format&fit=crop",
-  },
-];
-
+// iterface of the data to be displayed
 interface IProps {
   title: string;
   capacity: string;
@@ -33,7 +13,9 @@ interface IProps {
   description: string;
   url: string;
 }
+
 export function ProjectsSection() {
+  // Query function to fetch all the data from the backend
   const { data } = useQuery({
     queryKey: ["Fetch recent data"],
     queryFn: fetchFiles,
@@ -44,6 +26,7 @@ export function ProjectsSection() {
   useEffect(() => {
     setProjects(data?.files);
   }, [data]);
+
   return (
     <section className="py-24 bg-muted/50">
       <div className="container mx-auto px-4 lg:px-8">

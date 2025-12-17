@@ -1,18 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
-import {
-  FileText,
-  Download,
-  Calendar,
-  FileSpreadsheet,
-  Trophy,
-  ArrowLeft,
-} from "lucide-react";
+import { FileText, Download, Calendar, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { fetchReports } from "@/api/files.api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
+// interface of the data receiving
 interface IProps {
   title: string;
   type: string;
@@ -21,6 +16,7 @@ interface IProps {
   icon: any;
   url: string;
 }
+
 const Reports = () => {
   // fetch reports
   const { data } = useQuery({
@@ -32,11 +28,10 @@ const Reports = () => {
   const [Report, setReport] = useState<IProps[] | undefined>(undefined);
   useEffect(() => {
     if (!data?.files) {
-      console.log("There are no any reports");
       return;
     }
 
-    const file = data?.files.map((report, idx) => {
+    const file = data?.files.map((report) => {
       return {
         title: report.title,
         type: report.Type,
@@ -106,7 +101,7 @@ const Reports = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full mt-4 group-hover:border-accent group-hover:text-accent"
+                        className="w-full mt-4 group-hover:border-accent group-hover:text-white"
                       >
                         <Download className="w-4 h-4" />
                         Download PDF

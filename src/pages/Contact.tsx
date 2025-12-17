@@ -12,6 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import mailAdmin from "@/api/mail.api";
 
 const Contact = () => {
+  // Mutate mail contents
   const { mutate, isPending } = useMutation({
     mutationFn: mailAdmin,
     mutationKey: ["New mail"],
@@ -25,6 +26,7 @@ const Contact = () => {
     },
   });
 
+  // Form validation
   const {
     register,
     reset,
