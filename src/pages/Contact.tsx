@@ -11,17 +11,24 @@ import mailSchema from "@/components/schema/Mail.schema";
 import { useMutation } from "@tanstack/react-query";
 import mailAdmin from "@/api/mail.api";
 
+interface IMail {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
 const Contact = () => {
   // Mutate mail contents
   const { mutate, isPending } = useMutation({
     mutationFn: mailAdmin,
     mutationKey: ["New mail"],
-    onSuccess(data) {
-      toast.success(data.message);
+    onSuccess: (data) => {
+      toast.success(data?.message);
       reset();
     },
-    onError(e) {
-      toast.error(e.message);
+    onError: (e) => {
+      toast.error(e.name);
       reset();
     },
   });
@@ -36,7 +43,7 @@ const Contact = () => {
     resolver: yupResolver(mailSchema),
   });
 
-  const sendMail = (data: any) => {
+  const sendMail = (data: IMail) => {
     mutate(data);
   };
 
@@ -140,11 +147,11 @@ const Contact = () => {
                       <Input
                         id="name"
                         placeholder="Your name"
-                        {...register("full_name")}
+                        {...register("name")}
                       />
-                      {errors && errors.full_name ? (
+                      {errors && errors.name ? (
                         <p className="font-regural text-sm text-red-500 w-full text-end px-3 py-2">
-                          {errors.full_name.message}
+                          {errors.name.message}
                         </p>
                       ) : (
                         ""

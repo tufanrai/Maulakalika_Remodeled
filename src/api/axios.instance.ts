@@ -6,7 +6,6 @@ const accessToken = Cookies.get("access token")!;
 
 const axiosInstance = axios.create({
   baseURL: uri,
-  timeout: 2000,
   headers: {
     Authorization: `BEARER ${accessToken}`,
   },

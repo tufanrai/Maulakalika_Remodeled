@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 // Mail form data
 const mailSchema = yup.object({
-  full_name: yup.string().required("please enter you full name"),
+  name: yup.string().required("please enter you full name"),
   email: yup
     .string()
     .required("please enter your mail.")
