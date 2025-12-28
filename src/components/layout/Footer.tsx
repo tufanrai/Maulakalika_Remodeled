@@ -61,11 +61,11 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3 text-primary-foreground/80">
                 <Mail className="w-4 h-4 text-accent" />
-                <span>info@maulakalika.com</span>
+                <a href="mailto:info@maulakalika.com">info@maulakalika.com</a>
               </div>
               <div className="flex items-center gap-3 text-primary-foreground/80">
                 <Phone className="w-4 h-4 text-accent" />
-                <span>+977-XXX-XXXXXX</span>
+                <a href="tel:9803953652">+977-XXX-XXXXXX</a>
               </div>
             </div>
           </div>
