@@ -84,9 +84,13 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">Head Office</h3>
-                    <p className="text-muted-foreground text-sm">
+                    <a
+                      href="https://maps.app.goo.gl/JZpbkdiP4QUYNedF8"
+                      target="_blank"
+                      className="text-muted-foreground text-sm ease duration-200 hover:text-accent"
+                    >
                       Kathmandu, Nepal
-                    </p>
+                    </a>
                   </div>
                 </div>
 
@@ -98,7 +102,7 @@ const Contact = () => {
                     <h3 className="font-medium text-foreground">Email</h3>
                     <a
                       href="mailto:info@maulakalika.com"
-                      className="text-accent hover:underline text-sm"
+                      className="text-muted-foreground hover:text-accent ease duration-200 text-sm"
                     >
                       info@maulakalika.com
                     </a>
@@ -111,9 +115,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">Phone</h3>
-                    <p className="text-muted-foreground text-sm">
+                    <a
+                      href="tel:9803953652"
+                      className="text-muted-foreground text-sm ease duration-200 hover:text-accent"
+                    >
                       +977-XXX-XXXXXX
-                    </p>
+                    </a>
                   </div>
                 </div>
 

@@ -112,19 +112,17 @@ const Reports = () => {
               </>
             ) : (
               <>
-                <Layout>
-                  <div className="min-h-[60vh] flex flex-col items-center justify-center">
-                    <h1 className="text-2xl font-bold text-foreground mb-4">
-                      Article Not Found
-                    </h1>
-                    <Button asChild>
-                      <Link to="/news">
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to News
-                      </Link>
-                    </Button>
-                  </div>
-                </Layout>
+                <div className="min-h-[60vh] flex flex-col items-center justify-center">
+                  <h1 className="text-2xl font-bold text-foreground mb-4">
+                    Article Not Found
+                  </h1>
+                  <Button asChild>
+                    <Link to="/news">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Back to News
+                    </Link>
+                  </Button>
+                </div>
               </>
             )}
           </div>
