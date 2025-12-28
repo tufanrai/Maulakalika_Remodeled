@@ -46,7 +46,7 @@ export function Footer() {
               <div>
                 <p className="font-bold text-lg leading-tight">Maulakalika</p>
                 <p className="text-xs text-primary-foreground/70">
-                  Hydro Power Company
+                  Hydro Power Private Limited
                 </p>
               </div>
             </Link>
@@ -139,8 +139,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-primary-foreground/10">
           <p className="text-sm text-primary-foreground/60 text-center">
-            © 2025 Maulakalika Hydro Power Company Pvt. Ltd. All Rights
-            Reserved.
+            © 2025 Maulakalika Hydro Power Pvt. Ltd. All Rights Reserved.
           </p>
         </div>
       </div>

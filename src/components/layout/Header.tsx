@@ -40,7 +40,7 @@ export function Header() {
                 Maulakalika
               </p>
               <p className="text-xs text-muted-foreground">
-                Hydro Power Company
+                Hydro Power Public Limited
               </p>
             </div>
           </Link>
