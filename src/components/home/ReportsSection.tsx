@@ -4,14 +4,17 @@ import { FileText, Download, ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchReports } from "@/api/files.api";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   title: string;
   type: string;
   date: string;
   pages: string;
+  url: string;
 }
 export function ReportsSection() {
+  const navigate = useNavigate();
   // fetch reports
   const { data } = useQuery({
     queryKey: ["Fetch recent reports"],
@@ -22,6 +25,11 @@ export function ReportsSection() {
   useEffect(() => {
     setReports(data?.files);
   }, [data]);
+
+  const download_File = (uri: string) => {
+    navigate(uri);
+  };
+  console.log(Reports);
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
@@ -72,6 +80,7 @@ export function ReportsSection() {
                       variant="ghost"
                       size="icon"
                       className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={() => download_File(report.url)}
                     >
                       <Download className="w-4 h-4" />
                     </Button>

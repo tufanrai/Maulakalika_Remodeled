@@ -44,6 +44,18 @@ const Gallery = () => {
     setImages(newImgs);
   }, [data]);
 
+  // check for visitors from landing page.
+  useEffect(() => {
+    const image = sessionStorage.getItem("openImage");
+
+    if (image) {
+      setSelectedImage(image);
+      setTimeout(() => {
+        sessionStorage.removeItem("openImage");
+      }, 1000);
+    }
+  }, []);
+
   return (
     <Layout>
       {/* Hero */}
@@ -63,7 +75,6 @@ const Gallery = () => {
           </div>
         </div>
       </section>
-
       {Images && Images != undefined ? (
         <>
           {/* Gallery */}
@@ -146,6 +157,7 @@ const Gallery = () => {
           </Layout>
         </>
       )}
+      console.log("🚀 ~ Gallery ~ Gallery:", Gallery)
     </Layout>
   );
 };

@@ -1,11 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const uri = import.meta.env.VITE_API_KEY ?? "";
 const accessToken = Cookies.get("access token")!;
 
 const axiosInstance = axios.create({
-  baseURL: uri,
+  baseURL: "https://maulakalika-server.onrender.com",
   headers: {
     Authorization: `BEARER ${accessToken}`,
   },

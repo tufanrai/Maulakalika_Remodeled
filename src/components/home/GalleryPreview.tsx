@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import fetchGalleryContents from "@/api/gallery.api";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // interface of the data to be displayed
 interface IProps {
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 export function GalleryPreview() {
+  const navigate = useNavigate();
   // Fetch all the images
   const { data } = useQuery({
     queryKey: ["fetch all the images"],
@@ -23,6 +25,13 @@ export function GalleryPreview() {
   useEffect(() => {
     setImages(data?.files);
   }, [data]);
+
+  const open_image = (url: string) => {
+    sessionStorage.setItem("openImage", url);
+    setTimeout(() => {
+      navigate(`/gallery`);
+    }, 500);
+  };
 
   return (
     <section className="py-24 bg-muted/50">
@@ -49,6 +58,7 @@ export function GalleryPreview() {
                   className={`relative overflow-hidden rounded-xl group cursor-pointer ${
                     idx === 0 ? "md:col-span-2 md:row-span-2" : ""
                   }`}
+                  onClick={() => open_image(image.url)}
                 >
                   <img
                     src={image.url}

@@ -4,6 +4,7 @@ import { ArrowRight, Zap } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFiles } from "@/api/files.api";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // iterface of the data to be displayed
 interface IProps {
@@ -12,6 +13,7 @@ interface IProps {
   status: string;
   description: string;
   url: string;
+  _id: string;
 }
 
 export function ProjectsSection() {
@@ -26,7 +28,6 @@ export function ProjectsSection() {
   useEffect(() => {
     setProjects(data?.files);
   }, [data]);
-
   return (
     <section className="py-24 bg-muted/50">
       <div className="container mx-auto px-4 lg:px-8">
@@ -53,7 +54,7 @@ export function ProjectsSection() {
               {Projects.map((project, idx) => (
                 <Link
                   key={idx}
-                  to="/projects"
+                  to={`/projects/${project._id}`}
                   className="group relative overflow-hidden rounded-2xl bg-card border border-border hover:border-accent/50 transition-all duration-300 hover:shadow-lg"
                 >
                   <div className="aspect-[16/10] overflow-hidden">

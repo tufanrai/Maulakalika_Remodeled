@@ -215,7 +215,13 @@ const Contact = () => {
                     )}
                   </div>
 
-                  <Button type="submit" variant="accent" size="lg">
+                  <Button
+                    type="submit"
+                    className={`${isPending ? "cursor-not-allowed" : ""}`}
+                    variant="accent"
+                    size="lg"
+                    disabled={isPending}
+                  >
                     Send Message
                     <Send className="w-4 h-4" />
                   </Button>
