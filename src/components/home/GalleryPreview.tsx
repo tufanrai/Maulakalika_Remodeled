@@ -39,6 +39,7 @@ export function GalleryPreview() {
         <div className="text-center mb-12">
           <span className="inline-block text-accent font-semibold text-sm uppercase tracking-wider mb-4">
             Gallery
+            <hr className="max-w-50 w-full h-1 rounded-full border-accent" />
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Images from Our Field & Office

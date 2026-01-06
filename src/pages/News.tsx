@@ -39,6 +39,7 @@ const News = () => {
           <div className="max-w-3xl">
             <span className="inline-block text-accent font-semibold text-sm uppercase tracking-wider mb-4">
               News & Updates
+              <hr className="max-w-50 w-full h-1 rounded-full border-accent" />
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Latest News

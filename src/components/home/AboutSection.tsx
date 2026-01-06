@@ -34,6 +34,7 @@ export function AboutSection() {
         <div className="max-w-3xl mx-auto text-center mb-16">
           <span className="inline-block text-accent font-semibold text-sm uppercase tracking-wider mb-4">
             Our Vision
+            <hr className="max-w-50 w-full h-1 rounded-full border-accent" />
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
             Powering Nepal's Future with Sustainable Energy
