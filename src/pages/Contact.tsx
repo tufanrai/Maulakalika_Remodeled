@@ -217,7 +217,9 @@ const Contact = () => {
 
                   <Button
                     type="submit"
-                    className={`${isPending ? "cursor-not-allowed" : ""}`}
+                    className={`${
+                      isPending ? "cursor-not-allowed" : "cursor-pointer"
+                    }`}
                     variant="accent"
                     size="lg"
                     disabled={isPending}
