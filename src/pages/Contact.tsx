@@ -86,11 +86,11 @@ const Contact = () => {
                   <div>
                     <h3 className="font-medium text-foreground">Head Office</h3>
                     <a
-                      href="https://maps.app.goo.gl/JZpbkdiP4QUYNedF8"
+                      href="https://maps.app.goo.gl/34bk2BR9oLRxccyP9"
                       target="_blank"
                       className="text-muted-foreground text-sm ease duration-200 hover:text-accent"
                     >
-                      Kathmandu, Nepal
+                      Kamaladi, Hama Tower
                     </a>
                   </div>
                 </div>
@@ -117,10 +117,10 @@ const Contact = () => {
                   <div>
                     <h3 className="font-medium text-foreground">Phone</h3>
                     <a
-                      href="tel:9803953652"
+                      href="tel:01-5913897"
                       className="text-muted-foreground text-sm ease duration-200 hover:text-accent"
                     >
-                      +977-XXX-XXXXXX
+                      01-5913897
                     </a>
                   </div>
                 </div>
@@ -134,7 +134,7 @@ const Contact = () => {
                       Office Hours
                     </h3>
                     <p className="text-muted-foreground text-sm">
-                      Sun - Fri: 9:00 AM - 5:00 PM (NPT)
+                      Sun - Fri: 10:00 AM - 5:00 PM (NPT)
                     </p>
                   </div>
                 </div>

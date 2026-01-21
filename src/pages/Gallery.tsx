@@ -158,7 +158,6 @@ const Gallery = () => {
           </Layout>
         </>
       )}
-      console.log("🚀 ~ Gallery ~ Gallery:", Gallery)
     </Layout>
   );
 };

@@ -103,7 +103,7 @@ const News = () => {
               </>
             ) : (
               <>
-                <div className="min-h-[60vh] flex flex-col items-center justify-center">
+                <div className="md:col-span-2 lg:col-span-3 min-h-[60vh] flex flex-col items-center justify-center mx-auto">
                   <h1 className="text-2xl font-bold text-foreground mb-4">
                     Article Not Found
                   </h1>

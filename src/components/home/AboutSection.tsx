@@ -3,27 +3,27 @@ import { Droplets, Mountain, Leaf, Users } from "lucide-react";
 const features = [
   {
     icon: Droplets,
-    title: "Hydropower Excellence",
+    title: "Environmental Stewardship",
     description:
-      "Leveraging Nepal's abundant water resources with cutting-edge turbine technology.",
+      "To pioneer innovative renewable energy while preserving the natural environment for future generations.",
   },
   {
     icon: Mountain,
-    title: "Himalayan Engineering",
+    title: "National Independence",
     description:
-      "Building resilient infrastructure adapted to the unique terrain of Nepal's mountains.",
+      "To lead Nepal toward energy independence through sustainable and large-scale hydropower development.",
   },
   {
     icon: Leaf,
-    title: "Sustainable Future",
+    title: "Economic Growth",
     description:
-      "100% renewable energy generation with minimal environmental footprint.",
+      "To fuel national prosperity by providing reliable, clean electricity for a self-reliant Nepal.",
   },
   {
     icon: Users,
     title: "Community Impact",
     description:
-      "Creating jobs and bringing reliable power to remote communities.",
+      "To empower local communities by creating lasting social and economic value through inclusive development.",
   },
 ];
 

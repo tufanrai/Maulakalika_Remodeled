@@ -22,13 +22,6 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 lg:px-8">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 bg-accent/20 backdrop-blur-sm border border-accent/30 rounded-full px-4 py-2 mb-6 animate-fade-in">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span className="text-sm font-medium text-primary-foreground">
-              Sustainable Energy Solutions
-            </span>
-          </div>
-
           <h1
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fade-in"
             style={{ animationDelay: "0.1s" }}
@@ -41,7 +34,7 @@ export function HeroSection() {
             className="text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-2xl animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            Introducing Maulakalika Hydro Power Pvt. Ltd. to the world —
+            Introducing Maula Kalika Hydropower Company Ltd. to the world —
             harnessing the power of Himalayan rivers for a sustainable future.
           </p>
 

@@ -10,8 +10,8 @@ const navigation = [
   { name: "Projects", href: "/projects" },
   { name: "3D Models", href: "/3d-models" },
   { name: "Reports", href: "/reports" },
-  { name: "Gallery", href: "/gallery" },
   { name: "News", href: "/news" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -37,10 +37,10 @@ export function Header() {
             </div>
             <div className="hidden sm:block">
               <p className="font-bold text-lg text-foreground leading-tight">
-                Maulakalika
+                Maula kalika
               </p>
               <p className="text-xs text-muted-foreground">
-                Hydro Power Public Limited
+                Hydropower Company Ltd.
               </p>
             </div>
           </Link>

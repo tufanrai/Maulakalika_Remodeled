@@ -50,7 +50,7 @@ const NewsDetail = () => {
       try {
         const resp = await fetchNews();
         setRelatedArticle(
-          resp?.all_news.filter((n) => n._id !== id).slice(0, 2)
+          resp?.all_news.filter((n) => n._id !== id).slice(0, 2),
         );
       } catch (err) {
         console.log(err);
@@ -95,7 +95,7 @@ const NewsDetail = () => {
               variant="ghost"
               size="sm"
               asChild
-              className="mb-4 text-neutral-400 hover:text-white hover:bg-neutral-100/20"
+              className="mb-4 text-neutral-500 hover:text-white hover:bg-neutral-100/30"
             >
               <Link to="/news">
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -106,12 +106,12 @@ const NewsDetail = () => {
               <span className="px-3 py-1 bg-accent text-accent-foreground text-sm font-medium rounded-full">
                 {article.category}
               </span>
-              <span className="flex items-center gap-1.5 text-neutral-400 text-sm">
+              <span className="flex items-center gap-1.5 text-neutral-500 text-sm">
                 <Calendar className="w-4 h-4" />
                 {article.date}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-300 leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-600 leading-tight">
               {article.title}
             </h1>
           </div>

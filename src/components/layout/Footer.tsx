@@ -44,9 +44,9 @@ export function Footer() {
                 {/* <Zap className="w-7 h-7 text-accent-foreground" /> */}
               </div>
               <div>
-                <p className="font-bold text-lg leading-tight">Maulakalika</p>
+                <p className="font-bold text-lg leading-tight">Maula kalika</p>
                 <p className="text-xs text-primary-foreground/70">
-                  Hydro Power Private Limited
+                  Hydropower Company Ltd.
                 </p>
               </div>
             </Link>
@@ -57,7 +57,12 @@ export function Footer() {
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-3 text-primary-foreground/80">
                 <MapPin className="w-4 h-4 text-accent" />
-                <span>Head Office: Nepal</span>
+                <a
+                  href="https://maps.app.goo.gl/34bk2BR9oLRxccyP9"
+                  target="_blank"
+                >
+                  Kamaladi, Kathmandu
+                </a>
               </div>
               <div className="flex items-center gap-3 text-primary-foreground/80">
                 <Mail className="w-4 h-4 text-accent" />
@@ -65,7 +70,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3 text-primary-foreground/80">
                 <Phone className="w-4 h-4 text-accent" />
-                <a href="tel:9803953652">+977-XXX-XXXXXX</a>
+                <a href="tel:01-5913897">01-5913897</a>
               </div>
             </div>
           </div>
@@ -139,7 +144,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-primary-foreground/10">
           <p className="text-sm text-primary-foreground/60 text-center">
-            © 2025 Maulakalika Hydro Power Pvt. Ltd. All Rights Reserved.
+            © 2026 Maula Kalika Hydropower Company Ltd. All Rights Reserved.
           </p>
         </div>
       </div>
