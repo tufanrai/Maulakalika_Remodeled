@@ -57,13 +57,15 @@ const Reports = () => {
     const file = data?.files.map((report) => {
       return {
         title: report.title,
-        type: report.Type,
+        type: report.type,
         date: report.date,
         pages: report.pages,
         url: report.url,
         icon: FileText,
       };
     });
+
+    console.log(file);
 
     const agmreports = file.filter((report) => report.type === "agm_report");
     const quarterlyreports = file.filter(
