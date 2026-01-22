@@ -1,11 +1,16 @@
 import { Layout } from "@/components/layout/Layout";
-import { FileText, Download, Calendar, ArrowLeft } from "lucide-react";
+import {
+  FileText,
+  Download,
+  Calendar,
+  ArrowLeft,
+  CalendarCog,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { fetchReports } from "@/api/files.api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
 
 // interface of the data receiving
 interface IProps {
@@ -17,7 +22,26 @@ interface IProps {
   url: string;
 }
 
+interface IFilter {
+  value: string;
+  name: string;
+  selected: boolean;
+}
+
+const filters: IFilter[] = [
+  { value: "Annual", name: "Annual Reports", selected: false },
+  { value: "quarter_report", name: "Quarter Reports", selected: false },
+  { value: "agm_report", name: "AGM Reports", selected: false },
+];
+
 const Reports = () => {
+  const [Report, setReport] = useState<IProps[] | undefined>(undefined);
+  const [filter, setFilter] = useState<string>("all");
+  const [agmReports, setAGMReports] = useState<IProps[]>([]);
+  const [annualReports, setAnnualReports] = useState<IProps[]>([]);
+  const [quarterlyReports, setQuarterlyReports] = useState<IProps[]>([]);
+  const [ext_filter, setExtFilter] = useState<string | null>(null);
+
   // fetch reports
   const { data } = useQuery({
     queryKey: ["Fetch the reports"],
@@ -25,7 +49,6 @@ const Reports = () => {
   });
 
   // set the reports
-  const [Report, setReport] = useState<IProps[] | undefined>(undefined);
   useEffect(() => {
     if (!data?.files) {
       return;
@@ -42,8 +65,39 @@ const Reports = () => {
       };
     });
 
+    const agmreports = file.filter((report) => report.type === "agm_report");
+    const quarterlyreports = file.filter(
+      (report) => report.type === "quarter_report",
+    );
+    const annualreport = file.filter(
+      (report) => report.type === undefined || report.type === "Annual",
+    );
+
+    setAGMReports(agmreports);
+    setQuarterlyReports(quarterlyreports);
+    setAnnualReports(annualreport);
     setReport(file);
   }, [data]);
+
+  // Look for external filter
+  useEffect(() => {
+    const external_filter = sessionStorage.getItem("filter");
+    if (filter) {
+      setFilter(external_filter);
+
+      const selectedFilter = filters.find((filter) => {
+        if (filter.value === external_filter) filter.selected = true;
+        return;
+      });
+
+      if (selectedFilter) setExtFilter(selectedFilter.name);
+      setTimeout(() => {
+        sessionStorage.removeItem("filter");
+      }, 1000);
+      return;
+    }
+    console.log("No filter available");
+  }, []);
 
   return (
     <Layout>
@@ -70,50 +124,214 @@ const Reports = () => {
       {/* Reports List */}
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Report && Report != undefined ? (
+          <div className="block w-full flex items-center justify-end px-4 py-2">
+            {ext_filter && ext_filter !== null ? (
               <>
-                {Report.map((report, idx) => (
-                  <div
-                    key={idx}
-                    className="p-6 rounded-xl bg-card border border-border hover:border-accent/50 hover:shadow-md transition-all group"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
-                        <report.icon className="w-6 h-6 text-accent" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className="inline-block px-2 py-0.5 bg-muted text-muted-foreground text-xs rounded mb-2">
-                          {report.type}
-                        </span>
-                        <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2 truncate">
-                          {report.title}
-                        </h3>
-                        <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5" />
-                            {report.date}
-                          </span>
-                          <span>{report.pages} pages</span>
-                        </div>
-                      </div>
-                    </div>
-                    <a href={report.url}>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full mt-4 group-hover:border-accent group-hover:text-white"
-                      >
-                        <Download className="w-4 h-4" />
-                        Download PDF
-                      </Button>
-                    </a>
-                  </div>
-                ))}
+                <select
+                  defaultValue={ext_filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="bg-foreground/10 text-foreground text-regural focus:outline-none"
+                >
+                  <option value="all">All Reports</option>
+                  {filters.map((val, idx) => (
+                    <option key={idx} value={val.value}>
+                      {val.name}
+                    </option>
+                  ))}
+                </select>
               </>
             ) : (
               <>
-                <div className="min-h-[60vh] flex flex-col items-center justify-center">
+                <select
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="bg-foreground/10 text-foreground text-regural focus:outline-none"
+                >
+                  <option value="all">All Reports</option>
+                  {filters.map((val, idx) => (
+                    <option key={idx} value={val.value}>
+                      {val.name}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Report && Report != undefined ? (
+              <>
+                {filter && filter !== "all" ? (
+                  <>
+                    {filter && filter !== "Annual" ? (
+                      <>
+                        {filter && filter !== "agm_report" ? (
+                          <>
+                            {quarterlyReports.map((report, idx) => (
+                              <div
+                                key={idx}
+                                className="p-6 rounded-xl bg-card border border-border hover:border-accent/50 hover:shadow-md transition-all group"
+                              >
+                                <div className="flex items-start gap-4">
+                                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
+                                    <report.icon className="w-6 h-6 text-accent" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <span className="inline-block px-2 py-0.5 bg-muted text-muted-foreground text-xs rounded mb-2">
+                                      {report.type}
+                                    </span>
+                                    <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2 truncate">
+                                      {report.title}
+                                    </h3>
+                                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                                      <span className="flex items-center gap-1">
+                                        <Calendar className="w-3.5 h-3.5" />
+                                        {report.date}
+                                      </span>
+                                      <span>{report.pages} pages</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <a href={report.url}>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-full mt-4 group-hover:border-accent group-hover:text-white"
+                                  >
+                                    <Download className="w-4 h-4" />
+                                    Download PDF
+                                  </Button>
+                                </a>
+                              </div>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {agmReports.map((report, idx) => (
+                              <div
+                                key={idx}
+                                className="p-6 rounded-xl bg-card border border-border hover:border-accent/50 hover:shadow-md transition-all group"
+                              >
+                                <div className="flex items-start gap-4">
+                                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
+                                    <report.icon className="w-6 h-6 text-accent" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <span className="inline-block px-2 py-0.5 bg-muted text-muted-foreground text-xs rounded mb-2">
+                                      {report.type}
+                                    </span>
+                                    <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2 truncate">
+                                      {report.title}
+                                    </h3>
+                                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                                      <span className="flex items-center gap-1">
+                                        <Calendar className="w-3.5 h-3.5" />
+                                        {report.date}
+                                      </span>
+                                      <span>{report.pages} pages</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <a href={report.url}>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-full mt-4 group-hover:border-accent group-hover:text-white"
+                                  >
+                                    <Download className="w-4 h-4" />
+                                    Download PDF
+                                  </Button>
+                                </a>
+                              </div>
+                            ))}
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {annualReports.map((report, idx) => (
+                          <div
+                            key={idx}
+                            className="p-6 rounded-xl bg-card border border-border hover:border-accent/50 hover:shadow-md transition-all group"
+                          >
+                            <div className="flex items-start gap-4">
+                              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
+                                <report.icon className="w-6 h-6 text-accent" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <span className="inline-block px-2 py-0.5 bg-muted text-muted-foreground text-xs rounded mb-2">
+                                  {report.type}
+                                </span>
+                                <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2 truncate">
+                                  {report.title}
+                                </h3>
+                                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                                  <span className="flex items-center gap-1">
+                                    <Calendar className="w-3.5 h-3.5" />
+                                    {report.date}
+                                  </span>
+                                  <span>{report.pages} pages</span>
+                                </div>
+                              </div>
+                            </div>
+                            <a href={report.url}>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="w-full mt-4 group-hover:border-accent group-hover:text-white"
+                              >
+                                <Download className="w-4 h-4" />
+                                Download PDF
+                              </Button>
+                            </a>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {Report.map((report, idx) => (
+                      <div
+                        key={idx}
+                        className="p-6 rounded-xl bg-card border border-border hover:border-accent/50 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center shrink-0 group-hover:bg-accent/20 transition-colors">
+                            <report.icon className="w-6 h-6 text-accent" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <span className="inline-block px-2 py-0.5 bg-muted text-muted-foreground text-xs rounded mb-2">
+                              {report.type}
+                            </span>
+                            <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors mb-2 truncate">
+                              {report.title}
+                            </h3>
+                            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-3.5 h-3.5" />
+                                {report.date}
+                              </span>
+                              <span>{report.pages} pages</span>
+                            </div>
+                          </div>
+                        </div>
+                        <a href={report.url}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full mt-4 group-hover:border-accent group-hover:text-white"
+                          >
+                            <Download className="w-4 h-4" />
+                            Download PDF
+                          </Button>
+                        </a>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="min-h-[60vh] md:col-span-2 lg:col-span-3 flex flex-col items-center justify-center">
                   <h1 className="text-2xl font-bold text-foreground mb-4">
                     Article Not Found
                   </h1>

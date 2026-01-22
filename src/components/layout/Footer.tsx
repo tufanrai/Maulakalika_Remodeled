@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import logo from "@/assets/Logo.png";
+import { useNavigate } from "react-router-dom";
+
+interface IProps {
+  name: string;
+  value?: string;
+  href: string;
+}
 
 const footerLinks = {
   company: [
@@ -14,8 +21,8 @@ const footerLinks = {
     { name: "3D Models", href: "/3d-models" },
   ],
   resources: [
-    { name: "Reports", href: "/reports" },
-    { name: "AGM Activities", href: "/reports#agm" },
+    { name: "Reports", href: "/reports", value: "all" },
+    { name: "AGM Activities", href: "/reports", value: "agm_report" },
     { name: "News", href: "/news" },
   ],
   gallery: [
@@ -26,6 +33,12 @@ const footerLinks = {
 };
 
 export function Footer() {
+  const navigate = useNavigate();
+  const handleNavigation = (value: IProps) => {
+    sessionStorage.setItem("filter", value.value);
+    navigate(value.href);
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 lg:px-8 py-16">
@@ -113,12 +126,12 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                  <span
+                    onClick={() => handleNavigation(link)}
+                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors cursor-pointer"
                   >
                     {link.name}
-                  </Link>
+                  </span>
                 </li>
               ))}
             </ul>
